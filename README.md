@@ -1,36 +1,121 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Stablecoin News
+
+A Techmeme-style news aggregator that displays stablecoin-specific news from crypto RSS feeds.
+
+## Features
+
+- Aggregates news from multiple crypto RSS feeds
+- Filters articles for stablecoin relevance using keyword matching
+- Displays articles in reverse-chronological order
+- Minimal, text-heavy design (Hacker News / Techmeme style)
+- Built with Next.js Server Components for fast loading
+- Simple in-memory caching (5 minute TTL)
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
+- Node.js 18+
+- npm
+
+### Installation
+
+1. Clone the repository:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <your-repo-url>
+cd stablenews
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Run the development server:
+```bash
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Learn More
+## Configuration
 
-To learn more about Next.js, take a look at the following resources:
+### Adding New RSS Feeds
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Edit `src/config/feeds.ts` to add or enable feeds:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```typescript
+{
+  name: "Source Name",
+  url: "https://example.com/feed",
+  enabled: true,  // Set to true to enable
+}
+```
 
-## Deploy on Vercel
+### Updating Stablecoin Keywords
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Edit `src/config/keywords.ts` to add new keywords for filtering:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```typescript
+export const STABLECOIN_KEYWORDS = {
+  core: ["stablecoin", ...],
+  tickers: ["USDT", "USDC", ...],
+  companies: ["Tether", "Circle", ...],
+  related: ["algorithmic stablecoin", ...],
+};
+```
+
+## Project Structure
+
+```
+src/
+├── app/
+│   ├── globals.css      # Global styles
+│   ├── layout.tsx       # Root layout with metadata
+│   └── page.tsx         # Main page component
+├── config/
+│   ├── feeds.ts         # RSS feed configuration
+│   └── keywords.ts      # Stablecoin keyword filters
+├── lib/
+│   └── rss.ts           # RSS fetching and filtering logic
+└── types/
+    └── article.ts       # TypeScript types
+```
+
+## Tech Stack
+
+- Next.js 14+ (App Router)
+- TypeScript
+- Tailwind CSS
+- rss-parser
+
+## Deploy to Vercel
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/your-username/stablenews)
+
+Or deploy manually:
+
+```bash
+npm run build
+vercel deploy
+```
+
+## Current Feed Sources
+
+Active:
+- CoinDesk
+- Cointelegraph
+
+Additional feeds available (disabled by default):
+- Crypto.news
+- NewsBTC
+- Blockchain.News
+- CryptoNews
+- CryptoPotato
+- CryptoSlate
+- The Defiant
+- CryptoBreaking
+
+## License
+
+MIT
