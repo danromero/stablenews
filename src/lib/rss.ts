@@ -44,7 +44,7 @@ function filterStablecoinArticles(articles: Article[]): Article[] {
 }
 
 function sortByDate(articles: Article[]): Article[] {
-  return articles.sort((a, b) => b.pubDate.getTime() - a.pubDate.getTime());
+  return articles.sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime());
 }
 
 export async function getStablecoinNews(limit: number = 50): Promise<{
