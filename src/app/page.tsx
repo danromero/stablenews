@@ -18,7 +18,7 @@ function formatDate(date: Date): string {
 
 function ArticleItem({ article }: { article: Article }) {
   return (
-    <article className="py-4 px-4 rounded-lg hover:bg-gray-50 transition-colors">
+    <article className="py-2.5 px-4 rounded-lg hover:bg-gray-50 transition-colors">
       <div className="text-xs text-gray-400 mb-1">
         {formatDate(article.pubDate)} | {article.source}
       </div>
@@ -39,14 +39,21 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="max-w-3xl mx-auto px-4 py-8">
+      <div className="max-w-3xl mx-auto px-4 py-6">
+        <header className="mb-5 px-4">
+          <img
+            src="/logo.svg"
+            alt="Stable Gazette"
+            className="h-5"
+          />
+        </header>
         <main>
           {articles.length === 0 ? (
             <p className="text-gray-500 text-center py-8">
               No stablecoin news found. Check back later.
             </p>
           ) : (
-            <div className="space-y-2">
+            <div className="space-y-1">
               {articles.map((article, index) => (
                 <ArticleItem key={`${article.link}-${index}`} article={article} />
               ))}
