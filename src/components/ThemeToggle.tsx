@@ -8,7 +8,8 @@ export default function ThemeToggle() {
 
   useEffect(() => {
     setMounted(true);
-    setIsDark(document.documentElement.classList.contains("dark"));
+    const isDarkMode = document.documentElement.classList.contains("dark");
+    setIsDark(isDarkMode);
   }, []);
 
   const toggleTheme = () => {
@@ -17,15 +18,15 @@ export default function ThemeToggle() {
 
     if (newIsDark) {
       document.documentElement.classList.add("dark");
-      localStorage.theme = "dark";
+      try { localStorage.setItem("theme", "dark"); } catch {}
     } else {
       document.documentElement.classList.remove("dark");
-      localStorage.theme = "light";
+      try { localStorage.setItem("theme", "light"); } catch {}
     }
   };
 
   if (!mounted) {
-    return <div className="w-8 h-8" />;
+    return <button className="p-2 w-8 h-8" aria-label="Toggle theme" />;
   }
 
   return (
@@ -33,6 +34,7 @@ export default function ThemeToggle() {
       onClick={toggleTheme}
       className="p-2 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 transition-colors"
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+      type="button"
     >
       {isDark ? (
         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

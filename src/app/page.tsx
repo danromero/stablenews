@@ -14,7 +14,7 @@ export default async function Home() {
   return (
     <div className="min-h-screen bg-white dark:bg-[#0a0a0a]">
       {/* Accent line */}
-      <div className="h-0.5 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500" />
+      <div className="h-px bg-gray-200 dark:bg-gray-800" />
 
       <div className="max-w-3xl mx-auto px-4 py-6">
         <header className="mb-5 px-4 flex items-center justify-between">
