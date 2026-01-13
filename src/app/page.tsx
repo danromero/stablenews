@@ -1,32 +1,26 @@
 import { getStablecoinNews } from "@/lib/rss";
 import { Article } from "@/types/article";
 
-function formatDate(date: Date): string {
-  return date.toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    hour: "numeric",
-    minute: "2-digit",
-    hour12: true,
-  });
-}
+// Revalidate every 5 minutes on Vercel
+export const revalidate = 300;
 
-function formatLastUpdated(date: Date): string {
+function formatDate(date: Date): string {
   return date.toLocaleString("en-US", {
+    timeZone: "America/Los_Angeles",
     month: "short",
     day: "numeric",
-    year: "numeric",
     hour: "numeric",
     minute: "2-digit",
     hour12: true,
+    timeZoneName: "short",
   });
 }
 
 function ArticleItem({ article }: { article: Article }) {
   return (
-    <article className="py-2">
-      <div className="text-xs text-gray-500 mb-0.5">
-        [{formatDate(article.pubDate)}]
+    <article className="py-4 px-4 rounded-lg hover:bg-gray-50 transition-colors">
+      <div className="text-xs text-gray-400 mb-1">
+        {formatDate(article.pubDate)} | {article.source}
       </div>
       <a
         href={article.link}
@@ -36,7 +30,6 @@ function ArticleItem({ article }: { article: Article }) {
       >
         {article.title}
       </a>
-      <div className="text-xs text-gray-400 mt-0.5">{article.source}</div>
     </article>
   );
 }
@@ -47,37 +40,22 @@ export default async function Home() {
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-3xl mx-auto px-4 py-8">
-        <header className="mb-6 pb-4 border-b border-gray-200">
-          <h1 className="text-2xl font-bold text-gray-900 mb-1">
-            Stablecoin News
-          </h1>
-          <p className="text-sm text-gray-500">
-            Latest news about stablecoins from across the crypto web
-          </p>
-          <p className="text-xs text-gray-400 mt-2">
-            Last updated: {formatLastUpdated(lastUpdated)}
-          </p>
-        </header>
-
         <main>
           {articles.length === 0 ? (
             <p className="text-gray-500 text-center py-8">
               No stablecoin news found. Check back later.
             </p>
           ) : (
-            <div className="divide-y divide-gray-100">
+            <div className="space-y-2">
               {articles.map((article, index) => (
                 <ArticleItem key={`${article.link}-${index}`} article={article} />
               ))}
             </div>
           )}
         </main>
-
-        <footer className="mt-8 pt-4 border-t border-gray-200 text-xs text-gray-400">
-          <p>
-            Aggregating stablecoin news from CoinDesk, Cointelegraph, and more.
-          </p>
-        </footer>
+        <p className="text-xs text-gray-300 mt-8 text-center">
+          Last updated {formatDate(lastUpdated)}
+        </p>
       </div>
     </div>
   );
